@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     try {
         // Game Loading Screen Logic
         const loadingOverlay = document.getElementById('game-loading-overlay');
@@ -9,22 +9,22 @@
                 loadingOverlay.remove();
             } else {
                 let progress = 0;
-                function loadStep() {
-                    progress += Math.random() * 15 + 5;
-                    if (progress >= 100) {
-                        progress = 100;
-                        loadingFill.style.width = `${progress}%`;
-                        setTimeout(() => {
-                            loadingOverlay.style.opacity = '0';
-                            loadingOverlay.style.transition = 'opacity 0.5s ease';
-                            setTimeout(() => loadingOverlay.remove(), 500);
-                        }, 500);
-                    } else {
-                        loadingFill.style.width = `${progress}%`;
-                        setTimeout(loadStep, Math.random() * 500 + 200);
-                    }
+            function loadStep() {
+                progress += Math.random() * 15 + 5;
+                if (progress >= 100) {
+                    progress = 100;
+                    loadingFill.style.width = `${progress}%`;
+                    setTimeout(() => {
+                        loadingOverlay.style.opacity = '0';
+                        loadingOverlay.style.transition = 'opacity 0.5s ease';
+                        setTimeout(() => loadingOverlay.remove(), 500);
+                    }, 500);
+                } else {
+                    loadingFill.style.width = `${progress}%`;
+                    setTimeout(loadStep, Math.random() * 500 + 200);
                 }
-                setTimeout(loadStep, 300);
+            }
+            setTimeout(loadStep, 300);
             }
         }
 
@@ -37,7 +37,7 @@
 
     // Initialize UI
     document.getElementById('current-user-name').innerText = currentUser === 'ece' ? 'Ece' : 'Orkun';
-    document.getElementById('current-user-avatar').innerText = currentUser === 'ece' ? 'ğŸ‘©ğŸ»' : 'ğŸ§‘ğŸ»';
+    document.getElementById('current-user-avatar').innerText = currentUser === 'ece' ? '👩🏻' : '🧑🏻';
 
     // Hide Loading Screen
     const loadingScreen = document.getElementById('loading-screen');
@@ -49,15 +49,15 @@
     if (gameData.playerLevel === undefined) gameData.playerLevel = 1;
     if (gameData.playerXp === undefined) gameData.playerXp = 0;
     
-    window.activeGameData = gameData; // Modal butonlarÄ± iÃ§in global referans
+    window.activeGameData = gameData; // Modal butonları için global referans
     window.aquarium = aquarium; // Global referans
     
     // Test block removed
     if (!gameData.activeFoods) gameData.activeFoods = [];
 
-    // Dirt Canvas Setup (Mini oyun ve gÃ¶rsel katman)
+    // Dirt Canvas Setup (Mini oyun ve görsel katman)
     const dirtCanvas = document.getElementById('dirt-canvas');
-    dirtCanvas.style.opacity = '0'; // Sayfa yÃ¼klenirken anlÄ±k kirlilik parlamasÄ±nÄ± engellemek iÃ§in
+    dirtCanvas.style.opacity = '0'; // Sayfa yüklenirken anlık kirlilik parlamasını engellemek için
     const dirtCtx = dirtCanvas.getContext('2d', { willReadFrequently: true });
     window.isCleaningMode = false;
     let isScrubbing = false;
@@ -76,11 +76,11 @@
         dirtCtx.clearRect(0, 0, dirtCanvas.width, dirtCanvas.height);
         dirtCtx.globalCompositeOperation = 'source-over';
         
-        // Base hafif saydam yeÅŸil
+        // Base hafif saydam yeşil
         dirtCtx.fillStyle = 'rgba(43, 65, 34, 0.6)'; 
         dirtCtx.fillRect(0, 0, dirtCanvas.width, dirtCanvas.height);
         
-        // Yosun birikintileri (kÃ¶ÅŸeler ve belirli alanlar)
+        // Yosun birikintileri (köşeler ve belirli alanlar)
         const spots = [
             { x: dirtCanvas.width * 0.1, y: dirtCanvas.height * 0.9, r: dirtCanvas.height * 0.5 },
             { x: dirtCanvas.width * 0.9, y: dirtCanvas.height * 0.8, r: dirtCanvas.height * 0.6 },
@@ -100,16 +100,16 @@
     };
     
     resizeDirtCanvas(); // Init
-    window.fillDirtGlobal(); // Oyuna girerken ilk dokuyu Ã§iz
+    window.fillDirtGlobal(); // Oyuna girerken ilk dokuyu çiz
 
     // Start Render Loop
     aquarium.setCreatures(gameData.creatures);
     aquarium.setFoods(gameData.activeFoods);
     aquarium.render();
     
-    updateUI(gameData); // Ä°lk yÃ¼klemede arayÃ¼zÃ¼ ve kirlilik opaklÄ±ÄŸÄ±nÄ± hemen ayarla
+    updateUI(gameData); // İlk yüklemede arayüzü ve kirlilik opaklığını hemen ayarla
 
-    // Pending Feed Check (Envanterden yem kullanÄ±ldÄ±ysa)
+    // Pending Feed Check (Envanterden yem kullanıldıysa)
     if (gameData.pendingFeedItem) {
         const feedId = gameData.pendingFeedItem;
         gameData.pendingFeedItem = null;
@@ -120,7 +120,7 @@
             aquarium.setFeedMode(true, config);
             document.getElementById('btn-cancel-feed').classList.remove('hidden');
             document.getElementById('btn-feed').classList.add('hidden');
-            showNotification(`Yem seÃ§ildi: ${config.name}. Atmak iÃ§in akvaryuma tÄ±kla!`);
+            showNotification(`Yem seçildi: ${config.name}. Atmak için akvaryuma tıkla!`);
         }
     }
 
@@ -143,7 +143,7 @@
         openDecorationModal(decoration, gameData);
     };
 
-    // Yem SeÃ§im ve Atma Ä°ÅŸlemleri
+    // Yem Seçim ve Atma İşlemleri
     const feedMenu = document.getElementById('feed-menu');
     const btnFeed = document.getElementById('btn-feed');
     const btnCancelFeed = document.getElementById('btn-cancel-feed');
@@ -152,11 +152,11 @@
         // Envanterdeki yemleri bul
         const foods = (gameData.inventory.shared || []).filter(i => i && CONFIG.FOODS[i.id]);
         if (foods.length === 0) {
-            showNotification("Envanterde hiÃ§ yem yok! Marketten al.");
+            showNotification("Envanterde hiç yem yok! Marketten al.");
             return;
         }
 
-        // MenÃ¼yÃ¼ doldur
+        // Menüyü doldur
         feedMenu.innerHTML = '';
         foods.forEach(f => {
             const config = CONFIG.FOODS[f.id];
@@ -167,7 +167,7 @@
             btn.addEventListener('click', () => {
                 aquarium.setFeedMode(true, config);
                 feedMenu.classList.add('hidden');
-                showNotification(`Yem seÃ§ildi: ${config.name}. Atmak iÃ§in akvaryuma tÄ±kla!`);
+                showNotification(`Yem seçildi: ${config.name}. Atmak için akvaryuma tıkla!`);
             });
             feedMenu.appendChild(btn);
         });
@@ -185,7 +185,7 @@
         showNotification("Yem atma iptal edildi.");
     });
 
-    // Yem canvas'a dÃ¼ÅŸtÃ¼ÄŸÃ¼nde envanteri gÃ¼ncelle ve yemi oluÅŸtur
+    // Yem canvas'a düştüğünde envanteri güncelle ve yemi oluştur
     aquarium.onFoodDrop = (pctX, pctY, foodConfig) => {
         const foodId = foodConfig.id;
         let sharedInv = gameData.inventory.shared || [];
@@ -194,14 +194,14 @@
         if (itemIndex !== -1) {
             const item = sharedInv[itemIndex];
             
-            // Yemi oluÅŸtur
+            // Yemi oluştur
             aquarium.addFood(pctX, pctY, foodConfig);
             
-            // Envanterden dÃ¼ÅŸ
+            // Envanterden düş
             if (item.quantity >= foodConfig.portions) {
                 item.quantity -= foodConfig.portions;
                 if (item.quantity <= 0) {
-                    sharedInv[itemIndex] = null; // EÅŸya bitti
+                    sharedInv[itemIndex] = null; // Eşya bitti
                     aquarium.setFeedMode(false, null);
                     btnCancelFeed.classList.add('hidden');
                     btnFeed.classList.remove('hidden');
@@ -211,18 +211,18 @@
                 return true;
             } else if (item.quantity > 0) {
                 item.quantity = 0;
-                sharedInv[itemIndex] = null; // EÅŸya bitti
+                sharedInv[itemIndex] = null; // Eşya bitti
                 Storage.saveData(gameData);
                 
                 aquarium.setFeedMode(false, null);
                 btnCancelFeed.classList.add('hidden');
                 btnFeed.classList.remove('hidden');
-                showNotification(`Son kalan yemleri attÄ±n!`);
+                showNotification(`Son kalan yemleri attın!`);
                 return true;
             }
         }
         
-        showNotification("Bu yemden kalmadÄ±!");
+        showNotification("Bu yemden kalmadı!");
         aquarium.setFeedMode(false, null);
         btnCancelFeed.classList.add('hidden');
         btnFeed.classList.remove('hidden');
@@ -230,20 +230,20 @@
     };
 
     document.getElementById('btn-clean').addEventListener('click', () => {
-        // Su kalitesi 50'den bÃ¼yÃ¼kse temizlemeye izin verme
+        // Su kalitesi 50'den büyükse temizlemeye izin verme
         if (gameData.waterQuality > 50) {
-            showNotification("Åuan akvaryum temiz. Biraz daha kirlenmesini bekleyin.");
+            showNotification("Şuan akvaryum temiz. Biraz daha kirlenmesini bekleyin.");
             return;
         }
         
-        // Temizleme mini oyununu baÅŸlat
+        // Temizleme mini oyununu başlat
         window.isCleaningMode = true;
-        dirtCanvas.style.opacity = '1'; // Tamamen gÃ¶rÃ¼nÃ¼r yap
-        dirtCanvas.style.pointerEvents = 'auto'; // TÄ±klamalarÄ± al
-        dirtCanvas.style.cursor = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><text y='30' font-size='30'>ğŸ§½</text></svg>") 20 20, auto`;
+        dirtCanvas.style.opacity = '1'; // Tamamen görünür yap
+        dirtCanvas.style.pointerEvents = 'auto'; // Tıklamaları al
+        dirtCanvas.style.cursor = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><text y='30' font-size='30'>🧽</text></svg>") 20 20, auto`;
         
-        window.fillDirtGlobal(); // CamÄ± kirlet
-        showNotification("SÃ¼nger ile camÄ± silerek temizle! ğŸ§½");
+        window.fillDirtGlobal(); // Camı kirlet
+        showNotification("Sünger ile camı silerek temizle! 🧽");
     });
 
     function getMousePos(e) {
@@ -274,7 +274,7 @@
     const startScrub = (e) => {
         if (!window.isCleaningMode) return;
         isScrubbing = true;
-        e.preventDefault(); // SÃ¼rÃ¼kleme (drag) engelleyici
+        e.preventDefault(); // Sürükleme (drag) engelleyici
         const pos = getMousePos(e);
         lastX = pos.x;
         lastY = pos.y;
@@ -304,7 +304,7 @@
     dirtCanvas.addEventListener('mousemove', moveScrub);
     window.addEventListener('mouseup', stopScrub);
     
-    // Mobil Dokunmatik DesteÄŸi
+    // Mobil Dokunmatik Desteği
     dirtCanvas.addEventListener('touchstart', startScrub, {passive: false});
     dirtCanvas.addEventListener('touchmove', moveScrub, {passive: false});
     window.addEventListener('touchend', stopScrub);
@@ -315,7 +315,7 @@
         let transparentPixels = 0;
         const totalPixels = dataArray.length / 4;
         
-        // Ã‡ok daha hÄ±zlÄ± kontrol: dataArray[i] (Alpha kanalÄ±) 10'dan kÃ¼Ã§Ã¼kse silinmiÅŸ say
+        // Çok daha hızlı kontrol: dataArray[i] (Alpha kanalı) 10'dan küçükse silinmiş say
         for (let i = 3; i < dataArray.length; i += 4) {
             if (dataArray[i] < 10) transparentPixels++;
         }
@@ -333,7 +333,7 @@
             gameData.waterQuality = 100;
             Storage.saveData(gameData);
             updateUI(gameData);
-            showNotification("Akvaryum pÄ±rÄ±l pÄ±rÄ±l oldu! âœ¨");
+            showNotification("Akvaryum pırıl pırıl oldu! ✨");
             Storage.addLog(`${currentUser} akvaryumu temizledi.`);
         }
     }
@@ -370,24 +370,24 @@
         const btnMusic = document.getElementById('toggle-music-btn');
         const btnSfx = document.getElementById('toggle-sfx-btn');
         
-        btnMusic.innerText = AudioManager.musicEnabled ? 'AÃ§Ä±k' : 'KapalÄ±';
+        btnMusic.innerText = AudioManager.musicEnabled ? 'Açık' : 'Kapalı';
         btnMusic.style.background = AudioManager.musicEnabled ? 'var(--success)' : 'var(--danger)';
         
-        btnSfx.innerText = AudioManager.sfxEnabled ? 'AÃ§Ä±k' : 'KapalÄ±';
+        btnSfx.innerText = AudioManager.sfxEnabled ? 'Açık' : 'Kapalı';
         btnSfx.style.background = AudioManager.sfxEnabled ? 'var(--success)' : 'var(--danger)';
     });
 
     document.getElementById('toggle-music-btn').addEventListener('click', (e) => {
         const newState = !AudioManager.musicEnabled;
         AudioManager.toggleMusic(newState);
-        e.target.innerText = newState ? 'AÃ§Ä±k' : 'KapalÄ±';
+        e.target.innerText = newState ? 'Açık' : 'Kapalı';
         e.target.style.background = newState ? 'var(--success)' : 'var(--danger)';
     });
 
     document.getElementById('toggle-sfx-btn').addEventListener('click', (e) => {
         const newState = !AudioManager.sfxEnabled;
         AudioManager.toggleSfx(newState);
-        e.target.innerText = newState ? 'AÃ§Ä±k' : 'KapalÄ±';
+        e.target.innerText = newState ? 'Açık' : 'Kapalı';
         e.target.style.background = newState ? 'var(--success)' : 'var(--danger)';
     });
 
@@ -399,24 +399,24 @@
         const code = Storage.exportData();
         if (code) {
             navigator.clipboard.writeText(code).then(() => {
-                showNotification("âœ… Yedekleme kodu kopyalandÄ±! Bir yere not edin.");
+                showNotification("✅ Yedekleme kodu kopyalandı! Bir yere not edin.");
             }).catch(err => {
-                prompt("LÃ¼tfen aÅŸaÄŸÄ±daki kodu kopyalayÄ±n:", code);
+                prompt("Lütfen aşağıdaki kodu kopyalayın:", code);
             });
         } else {
-            showNotification("âŒ Veri dÄ±ÅŸa aktarÄ±lamadÄ±.");
+            showNotification("❌ Veri dışa aktarılamadı.");
         }
     });
 
     document.getElementById('btn-import-data').addEventListener('click', () => {
-        const code = prompt("LÃ¼tfen yedeÄŸinizi (kodu) buraya yapÄ±ÅŸtÄ±rÄ±n:");
+        const code = prompt("Lütfen yedeğinizi (kodu) buraya yapıştırın:");
         if (code) {
             const success = Storage.importData(code);
             if (success) {
-                alert("Veriler baÅŸarÄ±yla yÃ¼klendi! Oyun yeniden baÅŸlatÄ±lÄ±yor.");
+                alert("Veriler başarıyla yüklendi! Oyun yeniden başlatılıyor.");
                 window.location.reload();
             } else {
-                alert("âŒ HatalÄ± veya bozuk kod! LÃ¼tfen kodu tam kopyaladÄ±ÄŸÄ±nÄ±zdan emin olun.");
+                alert("❌ Hatalı veya bozuk kod! Lütfen kodu tam kopyaladığınızdan emin olun.");
             }
         }
     });
@@ -450,14 +450,14 @@ function updateGameLogic(data) {
     const now = Date.now();
     const elapsedMs = now - lastTickTime;
     
-    // Normal oyun zamanÄ± (1 saniye = 1 saniye)
+    // Normal oyun zamanı (1 saniye = 1 saniye)
     const timeMultiplier = 1; 
     
     const elapsedMinutes = (elapsedMs / 60000) * timeMultiplier;
     const elapsedHours = (elapsedMs / 3600000) * timeMultiplier;
     lastTickTime = now;
 
-    // Dekorasyon BonuslarÄ±nÄ± Hesapla
+    // Dekorasyon Bonuslarını Hesapla
     let waterBuff = 0;
     let happinessBuff = 0;
     let incomeBuff = 0;
@@ -474,13 +474,13 @@ function updateGameLogic(data) {
     }
 
     // Passive Income
-    let income = (incomeBuff * elapsedMinutes); // Dekorasyonlardan gelen pasif gelir (dakika baÅŸÄ±na)
+    let income = (incomeBuff * elapsedMinutes); // Dekorasyonlardan gelen pasif gelir (dakika başına)
     
     // Update Creatures
     for (let i = data.creatures.length - 1; i >= 0; i--) {
         let c = data.creatures[i];
         
-        if (c.isDead) continue; // Ã–lÃ¼ balÄ±klar iÃ§in statÃ¼ ve yaÅŸlanma hesaplamasÄ±nÄ± atla
+        if (c.isDead) continue; // Ölü balıklar için statü ve yaşlanma hesaplamasını atla
 
         // Age increases
         if (typeof c.ageHours !== 'number' || isNaN(c.ageHours)) {
@@ -493,7 +493,7 @@ function updateGameLogic(data) {
         c.ageHours += elapsedHours;
 
         // Hunger increases (stat decreases)
-        // YavaÅŸlatÄ±ldÄ± (Eskiden 1.5'ti, test iÃ§in 0.1'e Ã§ektim ki 1 dakikada Ã¶lÃ¼p gitmesinler)
+        // Yavaşlatıldı (Eskiden 1.5'ti, test için 0.1'e çektim ki 1 dakikada ölüp gitmesinler)
         c.hunger -= elapsedMinutes * 0.1; 
         if (c.hunger < 0) c.hunger = 0;
 
@@ -503,7 +503,7 @@ function updateGameLogic(data) {
         // Health drops if starving (hunger = 0)
         if (c.hunger <= 0) {
             c.starvationTimer = (c.starvationTimer || 0) + elapsedMinutes;
-            // Belli bir sÃ¼re (Ã¶rneÄŸin 5 dakika) aÃ§ kaldÄ±ktan sonra
+            // Belli bir süre (örneğin 5 dakika) aç kaldıktan sonra
             if (c.starvationTimer >= 5) {
                 c.starvationDamageTimer = (c.starvationDamageTimer || 0) + elapsedMinutes;
                 // 1'er 1'er azalma (her 1 dakikada 1 can)
@@ -513,19 +513,19 @@ function updateGameLogic(data) {
                 }
             }
         } else {
-            // AÃ§lÄ±k sÄ±fÄ±r deÄŸilse sayaÃ§larÄ± sÄ±fÄ±rla
+            // Açlık sıfır değilse sayaçları sıfırla
             c.starvationTimer = 0;
             c.starvationDamageTimer = 0;
         }
 
         // Happiness drops if hungry
         if (hungerPct < 50) {
-            c.happiness -= elapsedMinutes * 0.1; // YavaÅŸlatÄ±ldÄ± (Eski 1)
+            c.happiness -= elapsedMinutes * 0.1; // Yavaşlatıldı (Eski 1)
         }
         
-        // Dekorasyon Mutluluk Bonusu (AÃ§lÄ±k %50 Ã¼zerindeyse veya az aÃ§ken)
+        // Dekorasyon Mutluluk Bonusu (Açlık %50 üzerindeyse veya az açken)
         if (happinessBuff > 0 && hungerPct >= 30) {
-            c.happiness += elapsedMinutes * (happinessBuff * 0.05); // Ufak bir artÄ±ÅŸ
+            c.happiness += elapsedMinutes * (happinessBuff * 0.05); // Ufak bir artış
             if (c.happiness > 100) c.happiness = 100;
         }
 
@@ -533,9 +533,9 @@ function updateGameLogic(data) {
 
         // Water quality effect on health
         if (data.waterQuality < 25) {
-            c.health -= elapsedMinutes * 0.5; // YavaÅŸlatÄ±ldÄ±
+            c.health -= elapsedMinutes * 0.5; // Yavaşlatıldı
         } else if (data.waterQuality < 50) {
-            c.health -= elapsedMinutes * 0.1; // YavaÅŸlatÄ±ldÄ±
+            c.health -= elapsedMinutes * 0.1; // Yavaşlatıldı
         }
 
         if (c.health < 0) c.health = 0;
@@ -543,8 +543,8 @@ function updateGameLogic(data) {
         // Death condition
         const agePct = (c.ageHours / c.maxLifespanHours) * 100;
         if (c.health <= 0 || agePct >= 100) {
-            c.isDead = true; // Diziden silmek yerine Ã¶lÃ¼ olarak iÅŸaretle
-            showNotification(`${c.name} (${CONFIG.CREATURES[c.type].name}) Ã¶ldÃ¼ ğŸ’”`);
+            c.isDead = true; // Diziden silmek yerine ölü olarak işaretle
+            showNotification(`${c.name} (${CONFIG.CREATURES[c.type].name}) öldü 💔`);
             continue;
         }
 
@@ -562,16 +562,20 @@ function updateGameLogic(data) {
     else if (numCreatures > 10 && numCreatures <= 20) waterDecayRate = 2;
     else if (numCreatures > 20) waterDecayRate = 3;
 
-    // GerÃ§ek geÃ§en zamana (dakika) gÃ¶re hesapla.
+    // Gerçek geçen zamana (dakika) göre hesapla.
     const realElapsedMinutes = elapsedMs / 60000;
     
-    // GÃ¼nde 1 kere temizlenmesi iÃ§in 24 saatte (1440 dk) 100 kirlilik birimi azalmalÄ±.
-    // YavaÅŸlatÄ±ldÄ± (test iÃ§in saniyede 0.1)
-    let baseWaterDecay = 0.0694 * waterDecayRate * realElapsedMinutes;
+    // Günde 1 kere temizlenmesi için 24 saatte (1440 dk) 100 kirlilik birimi azalmalı.
+    // Yavaşlatıldı (test için saniyede 0.1)
+    let baseWaterDecay = 0.1;
+    
+    // Dekorasyonlardan gelen su temizliği bonusu (Kirlenmeyi yavaşlatır)
     if (waterBuff > 0) {
+        // Örn: waterBuff 10 ise kirlenme %10 yavaşlar
         baseWaterDecay = baseWaterDecay * (1 - (waterBuff / 100));
         if (baseWaterDecay < 0) baseWaterDecay = 0;
     }
+    
     data.waterQuality -= baseWaterDecay;
     if (data.waterQuality < 0) data.waterQuality = 0;
 }
@@ -610,8 +614,8 @@ function updateUI(data) {
     if (!window.isCleaningMode) {
         const dirtCanvasLocal = document.getElementById('dirt-canvas');
         if (dirtCanvasLocal) {
-            // Su kirliliÄŸi 50 ve Ã¼zerindeyse pÄ±rÄ±l pÄ±rÄ±l (opaklÄ±k 0)
-            // 50'nin altÄ±na dÃ¼ÅŸtÃ¼kÃ§e maksimum 1.0 (tam gÃ¶rÃ¼nÃ¼r) olacak ÅŸekilde opaklÄ±k artar.
+            // Su kirliliği 50 ve üzerindeyse pırıl pırıl (opaklık 0)
+            // 50'nin altına düştükçe maksimum 1.0 (tam görünür) olacak şekilde opaklık artar.
             let dirtOpacity = 0;
             if (data.waterQuality < 50) {
                 dirtOpacity = (50 - data.waterQuality) / 50; 
@@ -619,7 +623,7 @@ function updateUI(data) {
             
             dirtCanvasLocal.style.opacity = dirtOpacity;
             
-            // EÄŸer su kirlenmiÅŸse ve canvas temizse tekrar Ã§iz
+            // Eğer su kirlenmişse ve canvas temizse tekrar çiz
             if (dirtOpacity > 0 && !dirtCanvasLocal.dataset.isDirty) {
                 if (typeof window.fillDirtGlobal === 'function') {
                     window.fillDirtGlobal();
@@ -655,21 +659,21 @@ function openCreatureModal(creature) {
     const details = document.getElementById('creature-details');
     const config = CONFIG.CREATURES[creature.type];
     
-    // EÄŸer balÄ±k Ã¶lÃ¼yse Ã¶zel Ã¶lÃ¼m menÃ¼sÃ¼
+    // Eğer balık ölüyse özel ölüm menüsü
     if (creature.isDead) {
         const sellPrice = Economy.calculateSellPrice(creature, window.activeGameData.isHardMode);
         
         details.innerHTML = `
             <h2>${creature.name} <span style="font-size:1rem; opacity:0.7;">(${config.name})</span></h2>
-            <p style="color:var(--danger); font-size:1.1rem; margin-top:10px;">Bu canlÄ± maalesef hayatÄ±nÄ± kaybetti. âš°ï¸</p>
-            <p style="font-size:0.9rem; margin-top:5px; color:var(--secondary);">Onu akvaryumdan kaldÄ±rabilir veya Ã¶lÃ¼sÃ¼nÃ¼ satabilirsiniz.</p>
+            <p style="color:var(--danger); font-size:1.1rem; margin-top:10px;">Bu canlı maalesef hayatını kaybetti. ⚰️</p>
+            <p style="font-size:0.9rem; margin-top:5px; color:var(--secondary);">Onu akvaryumdan kaldırabilir veya ölüsünü satabilirsiniz.</p>
             
             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
                 <button class="action-btn" onclick="removeCreature('${creature.id}')" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
-                    Ã‡Ã¶pe At
+                    Çöpe At
                 </button>
                 <button class="action-btn" onclick="sellCreature('${creature.id}')" style="background: var(--danger); border-color: var(--danger);">
-                    Sat (ğŸ’° ${sellPrice})
+                    Sat (💰 ${sellPrice})
                 </button>
             </div>
         `;
@@ -677,15 +681,15 @@ function openCreatureModal(creature) {
         return;
     }
 
-    // Normal CanlÄ± MenÃ¼sÃ¼ (Ã–lÃ¼ deÄŸilse)
+    // Normal Canlı Menüsü (Ölü değilse)
     const agePct = creature.getLifespanPercentage();
     let barColor = 'var(--success)';
     if (agePct > 40) barColor = 'var(--accent)';
     if (agePct > 70) barColor = '#f4a261'; // Orange
     if (agePct > 90) barColor = 'var(--danger)';
 
-    const heartFull = 'â¤ï¸';
-    const heartEmpty = 'ğŸ¤';
+    const heartFull = '❤️';
+    const heartEmpty = '🤍';
     
     const safeEce = Math.max(0, Math.min(10, Math.floor(creature.loveEce || 0)));
     const safeOrkun = Math.max(0, Math.min(10, Math.floor(creature.loveOrkun || 0)));
@@ -696,30 +700,30 @@ function openCreatureModal(creature) {
     const sellPrice = Economy.calculateSellPrice(creature, window.activeGameData.isHardMode);
 
     details.innerHTML = `
-        <h2>${creature.name} ${creature.isSpecial ? 'âœ¨' : ''}</h2>
-        <p><strong>TÃ¼r:</strong> ${config.name} (${creature.gender === 'male' ? 'â™‚' : 'â™€'})</p>
-        <p><strong>YaÅŸ:</strong> ${Math.floor(creature.ageHours)} / ${Math.floor(creature.maxLifespanHours)}</p>
+        <h2>${creature.name} ${creature.isSpecial ? '✨' : ''}</h2>
+        <p><strong>Tür:</strong> ${config.name} (${creature.gender === 'male' ? '♂' : '♀'})</p>
+        <p><strong>Yaş:</strong> ${Math.floor(creature.ageHours)} / ${Math.floor(creature.maxLifespanHours)}</p>
         <div class="stat-bar-container" style="background: rgba(255,255,255,0.1); width: 100%; height: 10px; border-radius: 5px; margin: 10px 0;">
             <div style="background: ${barColor}; width: ${Math.min(100, agePct)}%; height: 100%; border-radius: 5px;"></div>
         </div>
         
-        <p><strong>AÃ§lÄ±k:</strong> ${Math.floor(creature.hunger)}/${CONFIG.MAX_HUNGER[creature.size] || 100}</p>
+        <p><strong>Açlık:</strong> ${Math.floor(creature.hunger)}/${CONFIG.MAX_HUNGER[creature.size] || 100}</p>
         <p><strong>Mutluluk:</strong> ${Math.floor(creature.happiness)}/100</p>
-        <p><strong>SaÄŸlÄ±k:</strong> ${Math.floor(creature.health)}/100</p>
+        <p><strong>Sağlık:</strong> ${Math.floor(creature.health)}/100</p>
         
         <hr style="margin: 15px 0; border-color: rgba(255,255,255,0.1);">
         
-        <p>ğŸ‘©ğŸ» Ece'nin Kalpleri: <br> ${eceHearts}</p>
-        <p>ğŸ§‘ğŸ» Orkun'un Kalpleri: <br> ${orkunHearts}</p>
+        <p>👩🏻 Ece'nin Kalpleri: <br> ${eceHearts}</p>
+        <p>🧑🏻 Orkun'un Kalpleri: <br> ${orkunHearts}</p>
         
         <hr style="margin: 15px 0; border-color: rgba(255,255,255,0.1);">
         
         <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
             <button class="action-btn" onclick="sellCreature('${creature.id}')" style="background: var(--danger); border-color: var(--danger);">
-                Sat (ğŸ’° ${sellPrice})
+                Sat (💰 ${sellPrice})
             </button>
-            <button class="action-btn" onclick="renameCreature('${creature.id}')">Ä°sim</button>
-            <button class="action-btn" onclick="breedCreature('${creature.id}')" style="background: var(--accent); border-color: var(--accent);">Ã‡iftleÅŸtir</button>
+            <button class="action-btn" onclick="renameCreature('${creature.id}')">İsim</button>
+            <button class="action-btn" onclick="breedCreature('${creature.id}')" style="background: var(--accent); border-color: var(--accent);">Çiftleştir</button>
         </div>
     `;
 
@@ -738,7 +742,7 @@ window.openDecorationModal = function(decoration, gameData) {
     details.innerHTML = `
         <h2 style="margin-bottom:10px;">${config.emoji} ${config.name}</h2>
         <p style="font-size:0.9rem; color:var(--secondary);">${config.desc}</p>
-        <p style="margin-top:10px; font-size:0.8rem;">Bu dekorasyonun yerini deÄŸiÅŸtirebilir veya satabilirsiniz.</p>
+        <p style="margin-top:10px; font-size:0.8rem;">Bu dekorasyonun yerini değiştirebilir veya satabilirsiniz.</p>
     `;
     
     const btnMove = document.getElementById('move-decoration-btn');
@@ -748,7 +752,7 @@ window.openDecorationModal = function(decoration, gameData) {
         window.aquarium.isMovingDecoration = true;
         window.aquarium.movingDecorationId = decoration.id;
         modal.classList.add('hidden');
-        showNotification("Dekorasyonu farenizle taÅŸÄ±yÄ±p, sabitlemek iÃ§in tekrar tÄ±klayÄ±n.");
+        showNotification("Dekorasyonu farenizle taşıyıp, sabitlemek için tekrar tıklayın.");
     };
     
     btnSell.onclick = () => {
@@ -759,7 +763,7 @@ window.openDecorationModal = function(decoration, gameData) {
             Storage.saveData(gameData);
             updateUI(gameData);
             window.aquarium.setDecorations(gameData.decorations);
-            showNotification(`${config.name} satÄ±ldÄ±. ğŸ’° +${sellPrice}`);
+            showNotification(`${config.name} satıldı. 💰 +${sellPrice}`);
         }
         modal.classList.add('hidden');
     };
@@ -774,7 +778,7 @@ window.breedCreature = function(id) {
     if (!c1) return;
 
     if (c1.happiness < 70 || c1.health < 60) {
-        showNotification("Bu canlÄ±nÄ±n Ã§iftleÅŸmek iÃ§in saÄŸlÄ±ÄŸÄ± veya mutluluÄŸu yetersiz! (SaÄŸlÄ±k > 60, Mutluluk > 70 olmalÄ±)");
+        showNotification("Bu canlının çiftleşmek için sağlığı veya mutluluğu yetersiz! (Sağlık > 60, Mutluluk > 70 olmalı)");
         return;
     }
 
@@ -788,7 +792,7 @@ window.breedCreature = function(id) {
     );
 
     if (mates.length === 0) {
-        showNotification("Akvaryumda uygun bir eÅŸ yok! (AynÄ± tÃ¼r, farklÄ± cinsiyet, saÄŸlÄ±klÄ± ve mutlu olmalÄ±)");
+        showNotification("Akvaryumda uygun bir eş yok! (Aynı tür, farklı cinsiyet, sağlıklı ve mutlu olmalı)");
         return;
     }
 
@@ -797,7 +801,7 @@ window.breedCreature = function(id) {
 
     const tankLevel = CONFIG.TANK_LEVELS.find(t => t.level === data.tankLevel);
     if (data.creatures.length >= tankLevel.capacity) {
-        showNotification("Akvaryum kapasitesi dolu! Yeni yavru iÃ§in yer yok.");
+        showNotification("Akvaryum kapasitesi dolu! Yeni yavru için yer yok.");
         return;
     }
 
@@ -832,7 +836,7 @@ window.breedCreature = function(id) {
     c2.happiness -= 20;
 
     Storage.saveData(data);
-    showNotification(`ğŸ’• ${c1.name} ve ${c2.name} Ã§iftleÅŸti! Yeni bir yavru doÄŸdu! ${isSpecial ? 'âœ¨ (MUTANT!)' : ''}`);
+    showNotification(`💕 ${c1.name} ve ${c2.name} çiftleşti! Yeni bir yavru doğdu! ${isSpecial ? '✨ (MUTANT!)' : ''}`);
     document.getElementById('creature-modal').classList.add('hidden');
 };
 window.sellCreature = function(id) {
@@ -844,7 +848,7 @@ window.sellCreature = function(id) {
         data.money += price;
         data.creatures.splice(idx, 1);
         Storage.saveData(data);
-        showNotification(`${c.name} ${price} paraya satÄ±ldÄ±!`);
+        showNotification(`${c.name} ${price} paraya satıldı!`);
         document.getElementById('creature-modal').classList.add('hidden');
     }
 };
@@ -857,7 +861,7 @@ window.openCollection = function() {
     
     let data = Storage.getData();
     let creatures = Object.values(CONFIG.CREATURES).sort((a, b) => {
-        const rarityWeights = { 'SÄ±radan': 1, 'YaygÄ±n': 2, 'SÄ±radÄ±ÅŸÄ±': 3, 'Nadir': 4, 'DestansÄ±': 5, 'Efsanevi': 6 };
+        const rarityWeights = { 'Sıradan': 1, 'Yaygın': 2, 'Sıradışı': 3, 'Nadir': 4, 'Destansı': 5, 'Efsanevi': 6 };
         return rarityWeights[a.rarity] - rarityWeights[b.rarity] || a.basePrice - b.basePrice;
     });
     
@@ -867,15 +871,15 @@ window.openCollection = function() {
         const isCollected = data.collection.includes(c.id);
         const card = document.createElement('div');
         
-        let borderClass = '#a0a0a0'; // SÄ±radan
-        if(c.rarity === 'YaygÄ±n') borderClass = '#28a745';
-        if(c.rarity === 'SÄ±radÄ±ÅŸÄ±') borderClass = '#007bff';
+        let borderClass = '#a0a0a0'; // Sıradan
+        if(c.rarity === 'Yaygın') borderClass = '#28a745';
+        if(c.rarity === 'Sıradışı') borderClass = '#007bff';
         if(c.rarity === 'Nadir') borderClass = '#6f42c1';
-        if(c.rarity === 'DestansÄ±') borderClass = '#e83e8c';
+        if(c.rarity === 'Destansı') borderClass = '#e83e8c';
         if(c.rarity === 'Efsanevi') borderClass = '#ffc107';
         
         let shadow = '';
-        if(c.rarity === 'DestansÄ±') shadow = 'box-shadow: 0 0 10px rgba(232, 62, 140, 0.5);';
+        if(c.rarity === 'Destansı') shadow = 'box-shadow: 0 0 10px rgba(232, 62, 140, 0.5);';
         if(c.rarity === 'Efsanevi') shadow = 'box-shadow: 0 0 20px rgba(255, 193, 7, 0.8);';
         
         card.style.cssText = `
@@ -886,8 +890,8 @@ window.openCollection = function() {
             ${isCollected ? '' : 'filter: brightness(0); opacity: 0.5;'}
         `;
         
-        // EÄŸer Efsanevi veya DestansÄ± ise arkaplanÄ± sÃ¼sle
-        if(isCollected && c.rarity === 'DestansÄ±') card.style.background = 'radial-gradient(circle, rgba(232, 62, 140, 0.2) 0%, rgba(232, 62, 140, 0.05) 100%)';
+        // Eğer Efsanevi veya Destansı ise arkaplanı süsle
+        if(isCollected && c.rarity === 'Destansı') card.style.background = 'radial-gradient(circle, rgba(232, 62, 140, 0.2) 0%, rgba(232, 62, 140, 0.05) 100%)';
         if(isCollected && c.rarity === 'Efsanevi') card.style.background = 'radial-gradient(circle, rgba(255, 193, 7, 0.3) 0%, rgba(255, 193, 7, 0.05) 100%)';
         
         let visualHtml = (c.image && isCollected)
@@ -939,7 +943,7 @@ document.getElementById('confirm-rename-btn').addEventListener('click', () => {
             c.name = newName;
             Storage.saveData(data);
             
-            // Oyun motorundaki aktif balÄ±ÄŸÄ±n adÄ±nÄ± da anÄ±nda gÃ¼ncelle
+            // Oyun motorundaki aktif balığın adını da anında güncelle
             if (window.aquarium && window.aquarium.creatures) {
                 const aqCreature = window.aquarium.creatures.find(x => x.id == pendingRenameId);
                 if (aqCreature) {
@@ -947,7 +951,7 @@ document.getElementById('confirm-rename-btn').addEventListener('click', () => {
                 }
             }
             
-            showNotification("Ä°sim baÅŸarÄ±yla gÃ¼ncellendi!");
+            showNotification("İsim başarıyla güncellendi!");
         }
     }
     document.getElementById('rename-modal').classList.add('hidden');
@@ -965,4 +969,3 @@ window.removeCreature = function(id) {
 };
 
 // End of file
-
