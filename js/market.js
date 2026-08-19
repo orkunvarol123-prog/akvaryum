@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navigation
     document.getElementById('btn-back').addEventListener('click', () => {
-        window.location.href = 'game.html';
+        window.location.href = 'game.html?noload=1';
     });
 
     // Tabs
@@ -589,7 +589,7 @@ function finishGachaSpin(wonCreatureConfig) {
     winnerScreen.classList.remove('hidden');
     
     document.getElementById('gacha-to-aquarium-btn').onclick = () => {
-        window.location.href = 'game.html';
+        window.location.href = 'game.html?noload=1';
     };
     
     isSpinning = false;

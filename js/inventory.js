@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('private-owner-name').innerText = currentUser === 'ece' ? 'Ece' : 'Orkun';
 
     document.getElementById('btn-back').addEventListener('click', () => {
-        window.location.href = 'game.html';
+        window.location.href = 'game.html?noload=1';
     });
 
     renderInventory();
@@ -200,7 +200,7 @@ document.getElementById('use-item-btn').addEventListener('click', () => {
         let data = Storage.getData();
         data.pendingFeedItem = item.id;
         Storage.saveData(data);
-        window.location.href = 'game.html';
+        window.location.href = 'game.html?noload=1';
         return;
     }
 
