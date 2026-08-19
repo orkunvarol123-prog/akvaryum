@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akvaryum Dünyası - Market</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/market.css">
+</head>
+<body>
+    <header class="game-header glass-panel">
+        <div class="user-info">
+            <span id="current-user-avatar" class="avatar-small">👩🏻</span>
+            <span id="current-user-name">Ece</span>
+        </div>
+        <div class="economy-info">
+            <div class="stat-box">
+                <span class="icon">💰</span>
+                <span id="money-display">500</span>
+            </div>
+            <div class="stat-box">
+                <span class="icon">🐟</span>
+                <span id="capacity-display">1/5</span>
+            </div>
+        </div>
+        <!-- Geri dön tuşu buradaydı, market içerisine taşındı -->
+    </header>
+
+    <main class="market-container glass-panel" style="position: relative;">
+        <button id="btn-back" class="secondary-btn" style="position: absolute; top: 20px; right: 20px;">🔙 Akvaryuma Dön</button>
+
+        <div class="market-tabs">
+            <button class="tab-btn active" data-tab="creatures">🐟 Canlılar</button>
+            <button class="tab-btn" data-tab="boxes" style="color: gold; text-shadow: 0 0 5px rgba(255,215,0,0.5);">🎁 Kutular</button>
+            <button class="tab-btn" data-tab="foods">🍖 Yemler</button>
+            <button class="tab-btn" data-tab="health">💊 Sağlık</button>
+            <button class="tab-btn" data-tab="love">💝 Sevgi & Mutluluk</button>
+            <!-- <button class="tab-btn" data-tab="decorations">🏰 Dekorasyon</button> -->
+            <button class="tab-btn" data-tab="upgrades">🏚️ Yükseltmeler</button>
+        </div>
+
+        <div id="market-content" class="market-grid">
+            <!-- Items will be injected here via JS -->
+        </div>
+    </main>
+
+    <!-- Modal for buying -->
+    <div id="buy-modal" class="modal hidden">
+        <div class="modal-content glass-panel text-center">
+            <span class="close-btn">&times;</span>
+            <div id="buy-details"></div>
+            <div id="gender-selection" class="hidden" style="margin: 20px 0;">
+                <p>Cinsiyet Seçin:</p>
+                <button class="action-btn gender-btn" data-gender="female">♀ Dişi</button>
+                <button class="action-btn gender-btn" data-gender="male">♂ Erkek</button>
+            </div>
+            <button id="confirm-buy-btn" class="action-btn" style="margin-top:20px; background:var(--success); border-color:var(--success);">Satın Al</button>
+        </div>
+    </div>
+
+    <!-- CS:GO Style Gacha Modal -->
+    <div id="gacha-modal" class="hidden">
+        <div class="gacha-content" id="gacha-content-box">
+            <h2 id="gacha-title" style="margin-bottom: 10px; color: gold;">Kutu Adı</h2>
+            <button class="close-btn" id="gacha-close-btn" style="position: absolute; top: 10px; right: 20px; font-size: 2rem; background: transparent; border: none; color: white; cursor: pointer;">&times;</button>
+            
+            <div class="gacha-window" id="gacha-window-ui">
+                <div class="gacha-target-line"></div>
+                <div class="gacha-strip" id="gacha-strip">
+                    <!-- JS will inject items here -->
+                </div>
+            </div>
+
+            <h3 id="gacha-pool-title" style="margin-bottom: 10px; font-size: 1rem;">Çıkabilecek Canlılar</h3>
+            <div class="gacha-pool" id="gacha-pool-container">
+                <!-- JS will inject pool items here -->
+            </div>
+
+            <button id="gacha-spin-btn" class="action-btn" style="font-size: 1.2rem; padding: 10px 30px; background: var(--success); border-color: var(--success);">
+                Kutuyu Aç (💰 <span id="gacha-price-display">0</span>)
+            </button>
+
+            <!-- Winner Screen (Hidden by default) -->
+            <div id="gacha-winner-screen" class="hidden" style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin-top: 20px;">
+                <h1 style="color: var(--success); margin-bottom: 10px; font-size: 2rem;">TEBRİKLER!</h1>
+                <div id="gacha-winner-emoji" style="font-size: 6rem; margin-bottom: 10px;">🐟</div>
+                <h2 id="gacha-winner-name" style="margin-bottom: 20px;">Balık Adı</h2>
+                <button id="gacha-to-aquarium-btn" class="action-btn" style="font-size: 1.5rem; padding: 15px 40px; background: var(--accent); border-color: var(--accent);">
+                    Akvaryuma Koy 🌊
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js?v=2"></script>
+    <script src="js/storage.js?v=2"></script>
+    <script src="js/market.js?v=2"></script>
+</body>
+</html>

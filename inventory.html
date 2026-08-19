@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akvaryum Dünyası - Envanter</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/inventory.css">
+</head>
+<body>
+    <header class="game-header glass-panel">
+        <div class="user-info">
+            <span id="current-user-avatar" class="avatar-small">👩🏻</span>
+            <span id="current-user-name">Ece</span>
+        </div>
+        <!-- Geri dön butonu envanterin içine alındı -->
+    </header>
+
+    <main class="inventory-container glass-panel" style="position: relative;">
+        <button id="btn-back" class="secondary-btn" style="position: absolute; top: 20px; right: 20px;">🔙 Akvaryuma Dön</button>
+
+        <h2 style="text-align:center; margin-bottom: 20px;">🎒 Envanter Sistemi</h2>
+        
+        <div class="inventory-layout">
+            <!-- Private Inventory (Top row, 5 slots) -->
+            <div class="inventory-section private-section">
+                <h3>Özel Alan (<span id="private-owner-name"></span>)</h3>
+                <div class="slots-grid" id="private-slots">
+                    <!-- Slots will be generated here -->
+                </div>
+                <p class="section-desc">Bu kutular sadece size aittir, diğer oyuncu göremez.</p>
+            </div>
+
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
+
+            <!-- Shared Inventory (Bottom 5 rows, 5x5 = 25 slots) -->
+            <div class="inventory-section shared-section">
+                <h3>Ortak Alan</h3>
+                <div class="slots-grid" id="shared-slots">
+                    <!-- Slots will be generated here -->
+                </div>
+                <p class="section-desc">Bu alandaki eşyaları Ece ve Orkun ortak kullanır.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Item Details -->
+    <div id="item-modal" class="modal hidden">
+        <div class="modal-content glass-panel text-center">
+            <span class="close-btn">&times;</span>
+            <div id="item-details"></div>
+            <button id="use-item-btn" class="action-btn" style="margin-top:20px; background:var(--primary); border-color:var(--primary);">Kullan</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/feeding.js"></script>
+    <script src="js/inventory.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.aquarium-container {
+    flex-grow: 1;
+    position: relative;
+    background: url('../assets/items/arka_plan.png') no-repeat center bottom;
+    background-size: cover;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+    margin: 0 10px;
+    border-radius: 20px;
+    border: 2px solid var(--glass-border);
+    overflow: hidden;
+}
+
+
+#aquarium-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    z-index: 2; /* Canvas kumun üstünde */
+}
+
+#decoration-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Kumun (1) altında */
+    pointer-events: none;
+}
+
+#dirt-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3; /* Balıkların ve suyun üstünde */
+    pointer-events: none; /* Varsayılan olarak tıklamaları engellemesin */
+    transition: opacity 0.5s ease;
+}
+
+
+.game-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 15px;
+    margin: 10px;
+    z-index: 10;
+}
+
+/* Modals and common buttons are moved to main.css */

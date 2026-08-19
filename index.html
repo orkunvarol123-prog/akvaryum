@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akvaryum Dünyası</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body class="login-body">
+    <!-- Orientation Warning Overlay -->
+    <div id="orientation-warning">
+        <div class="warning-content">
+            <span class="rotate-icon">📱</span>
+            <br>
+            <strong>Lütfen Cihazınızı Yan Çevirin</strong><br><br>
+            Akvaryum Dünyası en iyi<br>yatay ekranda oynanır.
+        </div>
+    </div>
+
+    <div class="bubbles-container" id="bubbles"></div>
+    
+    <div class="login-container">
+        <div class="login-box">
+            <div id="loading-container">
+                <p style="font-size: 1.2rem; margin-bottom: 10px;">Veriler işleniyor, data işleniyor...</p>
+                <div class="loading-bar-bg" style="width: 100%; height: 20px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; margin-bottom: 20px;">
+                    <div id="loading-bar-fill" style="width: 0%; height: 100%; background: var(--accent); transition: width 0.1s linear;"></div>
+                </div>
+            </div>
+
+            <div class="user-selection hidden" id="user-selection">
+                <button class="user-btn ece-btn" data-user="ece">
+                    <span class="avatar">👩🏻</span>
+                    <span class="name">Ece</span>
+                </button>
+                
+                <button class="user-btn orkun-btn" data-user="orkun">
+                    <span class="avatar">🧑🏻</span>
+                    <span class="name">Orkun</span>
+                </button>
+            </div>
+
+            <div class="actions hidden" id="actions">
+                <button id="reset-btn" class="secondary-btn">Oyunu Sıfırla</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

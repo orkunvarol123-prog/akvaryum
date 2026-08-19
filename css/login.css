@@ -1,0 +1,81 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-box {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+.login-box h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: var(--white);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--secondary);
+    margin-bottom: 40px;
+}
+
+.user-selection {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.user-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 150px;
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.user-btn:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--accent);
+    box-shadow: 0 8px 25px rgba(255, 183, 3, 0.3);
+}
+
+.avatar {
+    font-size: 4rem;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+}
+
+.name {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+/* Kişiye özel renkler */
+.ece-btn:hover {
+    border-color: #ffb5a7;
+    box-shadow: 0 8px 25px rgba(255, 181, 167, 0.4);
+}
+
+.orkun-btn:hover {
+    border-color: #9bf6ff;
+    box-shadow: 0 8px 25px rgba(155, 246, 255, 0.4);
+}
+
+.actions {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--glass-border);
+}

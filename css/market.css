@@ -1,0 +1,245 @@
+.market-container {
+    margin: 20px;
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.market-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.tab-btn {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    border: 1px solid var(--glass-border);
+    white-space: nowrap;
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    border-color: var(--primary-dark);
+}
+
+.market-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.market-item {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.2s;
+}
+
+.market-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.item-emoji {
+    font-size: 3rem;
+}
+
+.item-name {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.item-desc {
+    font-size: 0.8rem;
+    color: var(--secondary);
+    text-align: center;
+    min-height: 40px;
+}
+
+.item-price {
+    font-weight: bold;
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.buy-btn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    background: var(--success);
+    color: white;
+    font-weight: bold;
+    margin-top: auto;
+}
+
+.buy-btn:hover {
+    background: #05b083;
+}
+
+.buy-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+.gender-btn {
+    margin: 0 10px;
+    background: transparent;
+}
+.gender-btn.selected {
+    background: var(--primary);
+}
+
+/* CS:GO Gacha Styles */
+#gacha-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gacha-content {
+    width: 90%;
+    max-width: 800px;
+    background: rgba(15, 35, 75, 0.85); /* Daha açık okyanus mavisi */
+    backdrop-filter: blur(15px); /* Arkaplanı buğulandır (Glassmorphism) */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+.gacha-content.legendary-bg {
+    background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(15,20,30,0.95) 100%);
+    border-color: rgba(255,215,0,0.5);
+    box-shadow: 0 0 50px rgba(255,215,0,0.2);
+}
+.gacha-window {
+    width: 100%;
+    height: 140px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+.gacha-strip {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    width: max-content;
+    will-change: transform;
+    /* Transition is handled via JS for dynamic duration */
+}
+.gacha-target-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: red;
+    transform: translateX(-50%);
+    z-index: 10;
+    box-shadow: 0 0 10px red;
+}
+.gacha-item {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.05);
+    margin: 0 5px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+}
+.gacha-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+}
+.gacha-item.legendary-card::before {
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.4) 0%, rgba(255, 140, 0, 0.1) 100%);
+}
+.gacha-item.mythic-card::before {
+    background: radial-gradient(circle, rgba(255, 0, 100, 0.4) 0%, rgba(139, 0, 0, 0.1) 100%);
+}
+.gacha-item.unknown .emoji {
+    filter: brightness(0);
+    opacity: 0.5;
+}
+.gacha-item.unknown .name {
+    color: #888;
+}
+.gacha-item .emoji {
+    font-size: 3rem;
+    z-index: 1;
+}
+.gacha-item .name {
+    font-size: 0.8rem;
+    text-align: center;
+    margin-top: 5px;
+    color: white;
+    z-index: 1;
+}
+.gacha-item.rarity-Yaygın { border-bottom: 4px solid gray; }
+.gacha-item.rarity-Seyrek { border-bottom: 4px solid #1eff00; }
+.gacha-item.rarity-Nadir { border-bottom: 4px solid #0070dd; }
+.gacha-item.rarity-Destansı { border-bottom: 4px solid #a335ee; }
+.gacha-item.rarity-Efsanevi { border-bottom: 4px solid #ff8000; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
+.gacha-item.rarity-Mistik { border-bottom: 4px solid #ff0000; box-shadow: 0 0 15px rgba(255,0,0,0.8); }
+
+.gacha-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+}
+.pool-item {
+    background: rgba(255,255,255,0.05);
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    width: 70px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.pool-item.unknown {
+    filter: brightness(0); /* Tamamen siyah silüet */
+    opacity: 0.5;
+}
+.pool-item .emoji { font-size: 1.8rem; }
+.pool-item .name { font-size: 0.6rem; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; }
+

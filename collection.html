@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akvaryum Oyunu - Koleksiyon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/collection.css">
+</head>
+<body class="market-page">
+    <header class="game-header glass-panel">
+        <div class="user-info">
+            <h2>📖 Koleksiyon Defteri</h2>
+        </div>
+        <div class="nav-buttons">
+            <button onclick="window.location.href='game.html'" class="secondary-btn">Geri Dön</button>
+        </div>
+    </header>
+
+    <main class="market-container">
+        <!-- Collection Stats -->
+        <div class="glass-panel" style="margin-bottom: 20px; padding: 15px; text-align: center;">
+            <h3 id="collection-stats">Keşfedilen Türler: 0 / 0</h3>
+        </div>
+
+        <div id="collection-grid" class="collection-grid">
+            <!-- Filled via JS -->
+        </div>
+    </main>
+
+    <!-- Modal for showing details of unlocked fish -->
+    <div id="collection-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <span class="close-btn" onclick="document.getElementById('collection-modal').classList.add('hidden')">&times;</span>
+            <div id="collection-details"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/collection.js"></script>
+</body>
+</html>
