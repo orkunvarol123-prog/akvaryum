@@ -56,6 +56,10 @@ const Storage = {
                     }
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
                 }
+            }, (error) => {
+                if(error.code === 'PERMISSION_DENIED') {
+                    alert('HATA: Firebase Veritabani erisim izniniz yok! Firebase Rules (Kurallar) kismindan read/write izinlerini true yapmalisiniz.');
+                }
             });
 
             // Listen for changes
@@ -135,7 +139,7 @@ const Storage = {
     saveData: function(data) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         if (window.firebaseDB) {
-            window.firebaseDB.ref(FIREBASE_PATH).set(data);
+            window.firebaseDB.ref(FIREBASE_PATH).set(data).catch(e => { if(e.code === 'PERMISSION_DENIED') alert('HATA: Firebase yazma izniniz yok!'); });
         }
     },
 
