@@ -122,8 +122,8 @@ class AquariumRenderer {
         // Tıklananı Bul
         let clickedCreature = null;
         for (let c of this.creatures) {
-            const px = (c.x / 100) * this.canvas.width;
-            const py = (c.y / 100) * this.canvas.height;
+            const px = (c.x / 100) * (this.canvas.width / (window.devicePixelRatio || 1));
+            const py = (c.y / 100) * (this.canvas.height / (window.devicePixelRatio || 1));
             
             let hitRadius = 80;
             switch(c.size) {
@@ -152,8 +152,8 @@ class AquariumRenderer {
             const config = CONFIG.DECORATIONS[d.type];
             if(!config) continue;
             
-            const px = (d.x / 100) * this.canvas.width;
-            const py = (d.y / 100) * this.canvas.height;
+            const px = (d.x / 100) * (this.canvas.width / (window.devicePixelRatio || 1));
+            const py = (d.y / 100) * (this.canvas.height / (window.devicePixelRatio || 1));
             const hitRadius = 60 * config.scale; // Boyuta göre tıklama alanı
 
             const dist = Math.sqrt(Math.pow(px - mouseX, 2) + Math.pow(py - mouseY, 2));
@@ -170,11 +170,18 @@ class AquariumRenderer {
 
     resize() {
         const container = this.canvas.parentElement;
-        this.canvas.width = container.clientWidth;
-        this.canvas.height = container.clientHeight;
+        const dpr = window.devicePixelRatio || 1;
+        this.canvas.width = container.clientWidth * dpr;
+        this.canvas.height = container.clientHeight * dpr;
+        this.canvas.style.width = container.clientWidth + 'px';
+        this.canvas.style.height = container.clientHeight + 'px';
+        this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         if (this.decCanvas) {
-            this.decCanvas.width = container.clientWidth;
-            this.decCanvas.height = container.clientHeight;
+            this.decCanvas.width = container.clientWidth * dpr;
+            this.decCanvas.height = container.clientHeight * dpr;
+            this.decCanvas.style.width = container.clientWidth + 'px';
+            this.decCanvas.style.height = container.clientHeight + 'px';
+            this.decCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
     }
 
@@ -228,36 +235,21 @@ class AquariumRenderer {
                     this.decCtx.globalAlpha = 0.5;
                 }
 
-                const fontSize = 60 * config.scale;
-                this.decCtx.font = `${fontSize}px Arial`;
-                this.decCtx.textAlign = "center";
-                this.decCtx.textBaseline = "middle";
-                this.decCtx.fillText(config.emoji, 0, 0);
+                const sizeConfig = { 'Mini': 60, 'Küçük': 80, 'Orta': 120, 'Büyük': 180, 'Dev': 250 };
+                const sizePx = sizeConfig[c.size] || 80;
                 
-                this.decCtx.restore();
-            }
-        } else {
-            // Fallback
-            for (let d of this.decorations) {
-                const config = CONFIG.DECORATIONS[d.type];
-                if (!config) continue;
-
-                const dx = (d.x / 100) * this.canvas.width;
-                const dy = (d.y / 100) * this.canvas.height;
-                
-                this.ctx.save();
-                this.ctx.translate(dx, dy);
-                
-                // Eğer taşınıyorsa yarı saydam yap
-                if (this.isMovingDecoration && this.movingDecorationId === d.id) {
-                    this.ctx.globalAlpha = 0.5;
+                if (config.image && this.imageCache[config.id]) {
+                    const img = this.imageCache[config.id];
+                    if (img.complete) {
+                        this.ctx.drawImage(img, -sizePx/2, -sizePx/2, sizePx, sizePx);
+                    }
+                } else {
+                    const fontSize = sizePx * 0.8;
+                    this.ctx.font = fontSize + 'px Arial';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.textBaseline = 'middle';
+                    this.ctx.fillText(config.emoji, 0, 0);
                 }
-
-                const fontSize = 60 * config.scale;
-                this.ctx.font = `${fontSize}px Arial`;
-                this.ctx.textAlign = "center";
-                this.ctx.textBaseline = "middle";
-                this.ctx.fillText(config.emoji, 0, 0);
                 
                 this.ctx.restore();
             }

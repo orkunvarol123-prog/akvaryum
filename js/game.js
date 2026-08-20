@@ -66,8 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resizeDirtCanvas() {
         const container = dirtCanvas.parentElement;
-        dirtCanvas.width = container.clientWidth;
-        dirtCanvas.height = container.clientHeight;
+        const dpr = window.devicePixelRatio || 1;
+        dirtCanvas.width = container.clientWidth * dpr;
+        dirtCanvas.height = container.clientHeight * dpr;
+        dirtCanvas.style.width = container.clientWidth + 'px';
+        dirtCanvas.style.height = container.clientHeight + 'px';
+        dirtCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
         if (window.isCleaningMode) window.fillDirtGlobal();
     }
     
@@ -321,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         const cleanPercentage = (transparentPixels / totalPixels) * 100;
-        if (cleanPercentage > 80) {
+        if (cleanPercentage > 95) {
             window.isCleaningMode = false;
             dirtCanvas.style.pointerEvents = 'none';
             dirtCanvas.style.cursor = 'default';
@@ -567,7 +571,7 @@ function updateGameLogic(data) {
     
     // Günde 1 kere temizlenmesi için 24 saatte (1440 dk) 100 kirlilik birimi azalmalı.
     // Yavaşlatıldı (test için saniyede 0.1)
-    let baseWaterDecay = 0.1;
+    let baseWaterDecay = 0.025;
     
     // Dekorasyonlardan gelen su temizliği bonusu (Kirlenmeyi yavaşlatır)
     if (waterBuff > 0) {
@@ -884,18 +888,18 @@ window.openCollection = function() {
         
         card.style.cssText = `
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(255,255,255,0.05); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(135, 206, 250, 0.25); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
             border-bottom: 4px solid ${borderClass}; padding: 10px; height: 120px;
             ${shadow}
-            ${isCollected ? '' : 'filter: brightness(0); opacity: 0.5;'}
+            
         `;
         
         // Eğer Efsanevi veya Destansı ise arkaplanı süsle
         if(isCollected && c.rarity === 'Destansı') card.style.background = 'radial-gradient(circle, rgba(232, 62, 140, 0.2) 0%, rgba(232, 62, 140, 0.05) 100%)';
         if(isCollected && c.rarity === 'Efsanevi') card.style.background = 'radial-gradient(circle, rgba(255, 193, 7, 0.3) 0%, rgba(255, 193, 7, 0.05) 100%)';
         
-        let visualHtml = (c.image && isCollected)
-            ? `<img src="${c.image}" style="width:100%; height:60px; object-fit:contain; margin-bottom:10px;" />`
+        let visualHtml = c.image
+            ? `<img src="${c.image}" style="width:100%; height:60px; object-fit:contain; margin-bottom:10px; ${isCollected ? '' : 'filter: brightness(0); opacity: 0.8;'}" />`
             : `<div style="font-size: 2.5rem; ${isCollected ? '' : 'color: #333;'}">${c.emoji}</div>`;
             
         card.innerHTML = `

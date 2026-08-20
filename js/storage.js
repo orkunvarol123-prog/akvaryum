@@ -163,7 +163,7 @@ const Storage = {
         this.saveData(data);
         
         if (leveledUp) {
-            window.showNotification(Y?% Tebrikler! Seviye  + data.playerLevel +  oldunuz! Yeni balklarn kilidi ald.);
+            window.showNotification('🎉 Tebrikler! Seviye ' + data.playerLevel + ' oldunuz! Yeni balıkların kilidi açıldı.');
             if (window.updateTopBar) window.updateTopBar();
             if (window.renderMarketItems) window.renderMarketItems(); // Refresh market locks
         } else {
