@@ -1,32 +1,89 @@
-// Ortak veri yönetimi (localStorage tabanlı)
+﻿// Ortak veri ynetimi (localStorage + Firebase tabanl)
 
 const STORAGE_KEY = 'aquarium_data';
 const CURRENT_USER_KEY = 'current_user';
+const FIREBASE_PATH = 'gameState';
 
 const DEFAULT_DATA = {
-    version: 1, // Eski test verilerini temizlemek için sürüm kontrolü
-    money: 100, // Başlangıç parası
+    version: 1, // Eski test verilerini temizlemek iin srm kontrol
+    money: 100, // Balang paras
     isHardMode: false,
     playerLevel: 1,
     playerXp: 0,
     tankLevel: 1, // Kapasite: 5
     waterQuality: 100,
-    creatures: [], // Akvaryumdaki canlılar
-    activeFoods: [], // Akvaryumda yüzen yemler
+    creatures: [], // Akvaryumdaki canllar
+    activeFoods: [], // Akvaryumda yzen yemler
     decorations: [], // Akvaryumdaki dekorasyonlar
     inventory: {
         shared: [
-            { id: 'temel_pul_yem', quantity: 10 } // Başlangıç eşyası
+            { id: 'temel_pul_yem', quantity: 10 } // Balang eyas
         ],
         ece: [],
         orkun: []
     },
     logs: [],
-    collection: [] // Keşfedilen türler vb.
+    collection: [] // Kefedilen trler vb.
 };
 
 const Storage = {
+    _isFirebaseInitialized: false,
+    
+    initFirebase: function() {
+        if(this._isFirebaseInitialized) return;
+        this._isFirebaseInitialized = true;
+        
+        if (window.firebaseDB) {
+            const dbRef = window.firebaseDB.ref(FIREBASE_PATH);
+            
+            // Initial load
+            dbRef.once('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                }
+            });
+
+            // Listen for changes
+            dbRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    const localData = localStorage.getItem(STORAGE_KEY);
+                    if (JSON.stringify(data) !== localData) {
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                        // UI gncelle
+                        if (typeof updateUI === 'function' && window.activeGameData) {
+                            // Canl balk listesini kopyala
+                            const oldCreatures = window.activeGameData.creatures;
+                            window.activeGameData = data;
+                            
+                            // Akvaryum motorundaki balklar gncelle
+                            if (window.aquarium) {
+                                // Sadece yeni balklar ekle
+                                if (data.creatures.length > oldCreatures.length) {
+                                    window.aquarium.setCreatures(data.creatures);
+                                }
+                            }
+                            updateUI(data);
+                        } 
+                        if (typeof renderInventory === 'function') {
+                            renderInventory();
+                        }
+                        if (typeof renderMarketItems === 'function') {
+                            renderMarketItems();
+                        }
+                        if (typeof renderCollection === 'function') {
+                            renderCollection();
+                        }
+                    }
+                }
+            });
+        }
+    },
+
     getData: function() {
+        if (window.firebase) this.initFirebase();
+        
         const data = localStorage.getItem(STORAGE_KEY);
         if (!data) {
             this.saveData(DEFAULT_DATA);
@@ -34,8 +91,6 @@ const Storage = {
         }
         
         let parsed = JSON.parse(data);
-        
-        // Eğer eski bir test verisiyse (versiyon 1 değilse), her şeyi sıfırla
         if (parsed.version !== 1) {
             this.saveData(DEFAULT_DATA);
             return DEFAULT_DATA;
@@ -46,6 +101,9 @@ const Storage = {
 
     saveData: function(data) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        if (window.firebaseDB) {
+            window.firebaseDB.ref(FIREBASE_PATH).set(data);
+        }
     },
 
     getCurrentUser: function() {
@@ -73,7 +131,7 @@ const Storage = {
             message: message
         });
         
-        // Son 50 logu tutalım
+        // Son 50 logu tutalm
         if (data.logs.length > 50) {
             data.logs = data.logs.slice(0, 50);
         }
@@ -105,8 +163,7 @@ const Storage = {
         this.saveData(data);
         
         if (leveledUp) {
-            window.showNotification(`🎉 Tebrikler! Seviye ${data.playerLevel} oldunuz! Yeni balıkların kilidi açıldı.`);
-            // Update UI immediately if function exists
+            window.showNotification(Y?% Tebrikler! Seviye  + data.playerLevel +  oldunuz! Yeni balklarn kilidi ald.);
             if (window.updateTopBar) window.updateTopBar();
             if (window.renderMarketItems) window.renderMarketItems(); // Refresh market locks
         } else {
@@ -120,7 +177,6 @@ const Storage = {
             if (!dataStr) return null;
             return btoa(unescape(encodeURIComponent(dataStr)));
         } catch (e) {
-            console.error("Dışa aktarma hatası", e);
             return null;
         }
     },
@@ -134,7 +190,7 @@ const Storage = {
                 return true;
             }
         } catch (e) {
-            console.error("İçe aktarma hatası", e);
+            console.error("e aktarma hatas", e);
         }
         return false;
     }
