@@ -67,6 +67,9 @@ const Storage = {
                     data.decorations = data.decorations || [];
                     data.collection = data.collection || [];
                     data.logs = data.logs || [];
+                    data.inventory = data.inventory || { shared: [], player: Array(6).fill(null) };
+                    data.inventory.shared = data.inventory.shared || [];
+                    data.inventory.player = data.inventory.player || Array(6).fill(null);
                     
                     const localData = localStorage.getItem(STORAGE_KEY);
                     if (JSON.stringify(data) !== localData) {
@@ -122,6 +125,9 @@ const Storage = {
         parsed.decorations = parsed.decorations || [];
         parsed.collection = parsed.collection || [];
         parsed.logs = parsed.logs || [];
+        parsed.inventory = parsed.inventory || { shared: [], player: Array(6).fill(null) };
+        parsed.inventory.shared = parsed.inventory.shared || [];
+        parsed.inventory.player = parsed.inventory.player || Array(6).fill(null);
         
         return parsed;
     },
