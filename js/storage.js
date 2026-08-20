@@ -40,6 +40,20 @@ const Storage = {
             dbRef.once('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
+                    const localStr = localStorage.getItem(STORAGE_KEY);
+                    if(localStr) {
+                        try {
+                            const localData = JSON.parse(localStr);
+                            const localCount = (localData.creatures || []).length;
+                            const remoteCount = (data.creatures || []).length;
+                            
+                            // Eger yerelde daha cok balik veya para varsa, sunucuyu yerel ile ez (Senkronizasyon kurtarmasi)
+                            if(localCount > remoteCount || localData.money > data.money) {
+                                window.firebaseDB.ref(FIREBASE_PATH).set(localData);
+                                return;
+                            }
+                        } catch(e){}
+                    }
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
                 }
             });
