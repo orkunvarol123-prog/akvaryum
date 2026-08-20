@@ -1,4 +1,4 @@
-﻿// Ortak veri ynetimi (localStorage + Firebase tabanl)
+// Ortak veri ynetimi (localStorage + Firebase tabanl)
 
 const STORAGE_KEY = 'aquarium_data';
 const CURRENT_USER_KEY = 'current_user';
@@ -48,6 +48,12 @@ const Storage = {
             dbRef.on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
+                    data.creatures = data.creatures || [];
+                    data.activeFoods = data.activeFoods || [];
+                    data.decorations = data.decorations || [];
+                    data.collection = data.collection || [];
+                    data.logs = data.logs || [];
+                    
                     const localData = localStorage.getItem(STORAGE_KEY);
                     if (JSON.stringify(data) !== localData) {
                         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
@@ -95,6 +101,13 @@ const Storage = {
             this.saveData(DEFAULT_DATA);
             return DEFAULT_DATA;
         }
+        
+        // Firebase bostaki array'leri sildigi icin guvence altina alalim
+        parsed.creatures = parsed.creatures || [];
+        parsed.activeFoods = parsed.activeFoods || [];
+        parsed.decorations = parsed.decorations || [];
+        parsed.collection = parsed.collection || [];
+        parsed.logs = parsed.logs || [];
         
         return parsed;
     },
